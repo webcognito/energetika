@@ -23,12 +23,22 @@ type Result struct {
 	TotalMonth       string
 }
 
-func input(w http.ResponseWriter, r *http.Request) {
-	t, _ := template.ParseFiles("./web/templates/layout.html", "./web/templates/content_input.html")
-	t.ExecuteTemplate(w, "layout", "")
+func index(w http.ResponseWriter, r *http.Request) {
+	t, _ := template.ParseFiles("./web/templates/index.html", "./web/templates/content_index.html")
+	t.ExecuteTemplate(w, "index", "")
 }
 
-func output(w http.ResponseWriter, r *http.Request) {
+func ginput(w http.ResponseWriter, r *http.Request) {
+	t, _ := template.ParseFiles("./web/templates/index.html", "./web/templates/content_ginput.html")
+	t.ExecuteTemplate(w, "index", "")
+}
+
+func einput(w http.ResponseWriter, r *http.Request) {
+	t, _ := template.ParseFiles("./web/templates/index.html", "./web/templates/content_einput.html")
+	t.ExecuteTemplate(w, "index", "")
+}
+
+func eoutput(w http.ResponseWriter, r *http.Request) {
 	company := r.FormValue("company")
 	contractDuration := r.FormValue("contractDuration")
 	distCode := r.FormValue("distCode")
@@ -62,7 +72,7 @@ func output(w http.ResponseWriter, r *http.Request) {
 	calTotalMonth := calTotal / 12
 	valTotalMonth := fmt.Sprintf("%.2f", calTotalMonth)
 
-	t, _ := template.ParseFiles("./web/templates/layout.html", "./web/templates/content_output.html")
+	t, _ := template.ParseFiles("./web/templates/index.html", "./web/templates/content_output.html")
 	//data1 := []string{valVT, valNT, costMonthly, aPoze, bPoze}
 	result := Result{
 		Company:          company,
@@ -80,7 +90,7 @@ func output(w http.ResponseWriter, r *http.Request) {
 		TotalMonth:       valTotalMonth,
 	}
 
-	t.ExecuteTemplate(w, "layout", result)
+	t.ExecuteTemplate(w, "index", result)
 }
 
 func main() {
@@ -88,8 +98,11 @@ func main() {
 	fs := http.FileServer(http.Dir("./web/static"))
 	mux.Handle("/static/", http.StripPrefix("/static/", fs))
 	//mux.ServeFiles("/static/*filepath", http.Dir("static"))
-	mux.HandleFunc("/input", input)
-	mux.HandleFunc("/output", output)
+	mux.HandleFunc("/", index)
+	mux.HandleFunc("/einput", einput)
+	mux.HandleFunc("/eoutput", eoutput)
+	mux.HandleFunc("/ginput", ginput)
+	//mux.HandleFunc("/goutput", goutput)
 
 	server := http.Server{
 		Addr:    "127.0.0.1:8080",
