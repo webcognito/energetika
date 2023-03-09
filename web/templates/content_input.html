@@ -1,0 +1,156 @@
+{{ define "content" }}
+<div class="container mt-5 mb-5">
+<form class="row g-3 form-bg-color" action="/output" method="post">
+  <h2><u>Elektřina</u></h2>
+  <div class="form-label col-sm-4 mb-3">
+    <label for="company"><h4>Dodavatel</h4></label>
+    <input type="text" class="form-control" id="company" name="company" placeholder="Vyberte" list="elecCompany">
+      <datalist id="elecCompany">
+        <option value="ČEZ"></option>
+        <option value="E.ON"></option>
+        <option value="PRE"></option>
+        <option value="innogy"></option>
+        <option value="Centropol"></option>
+        <option value="MND"></option>
+      </datalist>
+  </div>
+  <div class="form-label col-sm-4 mb-3">
+    <label for="contractDuration"><h4>Smlouva</h4></label>
+    <select class="form-select" name="contractDuration">
+      <option value="">Vyberte</option>
+      <option value="Doba neurčita">Doba neurčita</option>
+      <option value="1 Rok">Doba určita 1 Rok</option>
+      <option value="2 Roky">Doba určita 2 Roky</option>
+      <option value="3 Roky">Doba určita 3 Roky</option>
+    </select>
+  </div>
+  <div class="form-label col-sm-4 mb-3">
+    <label for="distCode"><h4><abbr title="Distribuční sazba">Dist. sazba</abbr></h4></label>
+    <select class="form-select" name="distCode">
+      <option value="">Vyberte</option>
+      <optgroup label="Standart">
+        <option value="D01d">D01d</option>
+        <option value="D02">D02d</option>
+      </optgroup>
+      <optgroup label="Akumulace 8">
+        <option value="D25d">D25d</option>
+        <option value="D26d">D26d</option>
+      </optgroup>
+      <optgroup label="Elektromobilita">
+        <option value="D27d">D27d</option>
+      </optgroup>
+      <optgroup label="Akumulace 16">
+        <option value="D35d">D35d</option>
+      </optgroup>
+      <optgroup label="Přímotop">
+        <option value="D45d">D45d</option>
+      </optgroup>
+      <optgroup label="Tepelné čerpadlo">
+        <option value="D56d">D56d</option>
+      </optgroup>
+      <optgroup label="Elektrické topení">
+        <option value="D57d">D57d</option>
+      </optgroup>
+      <optgroup label="Víkend">
+        <option value="D61d">D61d</option>
+      </optgroup>
+    </select>
+  </div>
+  <div class="container">
+    <hr class="opacity-100 border-primary border-top border-3">
+</div>
+<!-- Usage VT -->
+      <h4>Roční spotřeba v MWh</h4>
+    <div class="form-floating col-sm-6">
+        <input type="number" step=any class="form-control" id="usageVT" name="usageVT" placeholder="MWh">
+        <label for="usageVT">Vysoký tarif (VT)</label>
+      </div>
+<!-- Usage NT -->
+      <div class="form-floating col-sm-6 mb-3">
+        <input type="number" step=any class="form-control" id="usageNT" name="usageNT" placeholder="MWh">
+        <label for="usageNT">Nízký tarif (NT)</label>
+      </div>
+<!-- Price VT -->
+    <h4>Celková Cena</h4>
+    <sup>(Celková jednotková cena včetně daně z elektřiny a systémových služeb)</sup>
+    <div class="form-floating col-sm-6">
+        <input type="number" step=0.01 class="form-control" id="priceVT" name="priceVT" placeholder="[Kč/MWh]">
+        <label for="priceVT">Vysoký tarif <small>[Kč/MWh]</small></label>
+      </div>
+<!-- Price NT -->
+      <div class="form-floating col-sm-6 mb-3">
+        <input type="number" step=0.01 class="form-control" id="priceNT" name="priceNT" placeholder="[Kč/MWh]">
+        <label for="priceNT">Nízký tarif <small>[Kč/MWh]</small></label>
+      </div>
+      <div class="container">
+            <hr class="opacity-75 border-primary border-top border-3">
+        </div>
+<!-- Monthly Payments -->
+      <h4>Měsíční platby></h4>
+    <div class="form-label col-sm-4">
+        <label for="constPay">Stálá Platba</label>
+        <input type="number" step=0.01 class="form-control" id="constPay" name="constPay" placeholder="Kč"> 
+    </div>
+    <div class="form-label col-sm-4">
+        <label for="priceInputBreaker">Cena za příkon podle jističe</label>
+        <input type="number" step=0.01 class="form-control" id="priceInputBreaker" name="priceInputBreaker" placeholder="Kč">
+    </div>
+    <div class="form-label col-sm-4">
+        <label for="OTE">Činnost operátora trhu (OTE)</label>
+        <input type="number" step=0.01 class="form-control" id="OTE" name="OTE" placeholder="Kč">
+    </div>
+    <div class="container">
+        <hr class="opacity-75 border-primary border-top border-3">
+    </div>
+<!-- POZE -->
+    <h4>Podporovaných zdrojů energie (POZE)</h4>
+    <div class="form-lable col-6">
+        <label for="byConsumption">Podle spotřeby</label>
+        <input type="number" step=0.01 class="form-control" id="byConsumption" name="byConsumption" placeholder="[Kč/MWh]">
+    </div>
+    <div class="col-6">
+        <label for="byBreaker">Podle jističe</label>
+        <input type="number" step=0.01 class="form-control" id="byBreaker" name="byBreaker" placeholder="Kč">
+    </div>
+    <div class="col-sm-6"></div>
+    <div class="form-label col-sm-3">
+      <label for="mainBreaker">Hlavna jističe</label>
+    <input type="number" class="form-select" class="form-control" id="mainBreaker" name="mainBreaker" placeholder="(A)"  aria-label="Default select example" list="breaker">
+      <datalist id="breaker">
+      <option value="10"></option>
+      <option value="16"></option>
+      <option value="20"></option>
+      <option value="25"></option>
+      <option value="32"></option>
+      <option value="40"></option>
+      <option value="50"></option>
+      <option value="63"></option>
+      <option value="100"></option>
+    </datalist>
+  </div>
+    <div class="col-sm-3">
+        <label for="Phases">Počet fází</label>
+        <select id="Phases" name="Phases" class="form-select">
+          <option value="">Vyberte</option>
+          <option value="1">1</option>
+          <option value="3">3</option>
+        </select>
+    </div>
+    <div class="container">
+        <hr class="opacity-75 border-primary border-top border-3">
+    </div>
+    <div class="col-12">
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="consent" required>
+        <label class="form-check-label" for="consent">
+            Rozumím, že vypočtené výsledky jsou pouze orientační a každý poskytovatel provádí vlastní výpočty.
+        </label>
+      </div>
+    </div>
+    <div class="d-grid mt-5 mb-5">
+      <button type="submit" class="btn btn-primary btn-block">Vypočítat</button>
+    </div>
+  </form>
+</div>
+
+{{ end }}

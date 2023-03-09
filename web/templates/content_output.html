@@ -1,0 +1,61 @@
+{{ define "content" }}
+
+<div class="container mt-5 mb-5">
+  <form class="row g-3 form-bg-color" action="/" method="">
+    <h3 class="text-center text-primary"><u>Vaše Údaje</u></h3>
+    <div class="d-flex text-center justify-content-around">
+      <h5>Dodavatel<br><small class="text-primary">{{.Company}}</small></h5>
+      <h5>Smlouva<br><small class="text-primary">{{.ContractDuration}}</small></h5>
+      <h5>Dist. sazba<br><small class="text-primary">{{.DistCode}}</small></h5>
+    </div>
+    <div class="form-label text-center col-6 mt-4">
+      <label for="usageVT">Spotřeba VT</label>
+      <input type="number" class="form-control text-center" id="usageVT" name="usageVT" value="{{.UsageVT}}" disabled>
+    </div>
+    <div class="form-label text-center col-6 mt-4">
+      <label for="usageNT">Spotřeba NT</label>
+      <input type="number" class="form-control text-center" id="usageNT" name="usageNT" value="{{.UsageNT}}" disabled>
+    </div>
+    <div class="form-label text-center col-6 mt-2">
+      <label for="mainBreaker">Hlavní jističe</label>
+      <input type="number" class="form-control text-center" id="mainBreaker" name="mainBreaker" value="{{.MainBreaker}}" disabled>
+    </div>
+    <div class="form-label text-center col-6 mt-2">
+      <label for="phases">Počet fází</label>
+      <input type="number" class="form-control text-center" id="phases" name="phases" value="{{.Phases}}" disabled>
+    </div>
+    <div class="container">
+      <hr class="opacity-75 border-primary border-top border-3">
+    </div>
+    <h4 class="text-primary text-center"><u>Roční Cena</u></h4>
+    <div class="form-label text-center col-6">
+      <label for="CostVT">Za Vysoký Tarif</label>
+      <input type="number" class="form-control text-center" id="CostVT" name="CostVT" value="{{.CostVT}}" disabled> 
+    </div>
+    <div class="form-label text-center col-6">
+      <label for="costNT">Za Nizky Tarif</label>
+      <input type="number" class="form-control text-center" id="costNT" name="costNT" value="{{.CostNT}}" disabled> 
+    </div>
+    <div class="form-label text-center col-6">
+      <label for="constPay">Stálá Platba</label>
+      <input type="number" class="form-control text-center" id="constPay" name="constPay" value="{{.CostMonth}}" disabled> 
+    </div>
+    <div class="form-label text-center col-6">
+      <label for="poze">POZE</label>
+      <input type="number" class="form-control text-center" id="poze" name="poze" value="{{.Poze}}" disabled> 
+    </div>
+    <div class="container">
+      <hr class="opacity-75 border-primary border-top border-3">
+    </div>
+    <h4 class="text-primary text-center"><u>Celková Cena</u></h4>
+    <div class="form-label text-center col-6">
+      <label for="total">Za Rok</label>
+      <input type="number" class="form-control text-center" id="total" name="total" value="{{.Total}}" disabled> 
+    </div>
+    <div class="form-label text-center col-6 mb-5">
+      <label for="totalMonth">Za Měsíc</label>
+      <input type="number" class="form-control text-center" id="totalMonth" name="totalMonth" value="{{.TotalMonth}}" disabled> 
+    </div>
+  </form>
+</div>
+{{ end }}

@@ -8,26 +8,30 @@ import (
 )
 
 type Result struct {
-	Company     string
-	UsageVT     float64
-	UsageNT     float64
-	MainBreaker float64
-	Phases      float64
-	CostVT      string
-	CostNT      string
-	CostMonth   string
-	Poze        string
-	Total       string
-	TotalMonth  string
+	Company          string
+	ContractDuration string
+	DistCode         string
+	UsageVT          float64
+	UsageNT          float64
+	MainBreaker      float64
+	Phases           float64
+	CostVT           string
+	CostNT           string
+	CostMonth        string
+	Poze             string
+	Total            string
+	TotalMonth       string
 }
 
 func input(w http.ResponseWriter, r *http.Request) {
-	t, _ := template.ParseFiles("templates/layout.html", "templates/content_input.html")
+	t, _ := template.ParseFiles("./web/templates/layout.html", "./web/templates/content_input.html")
 	t.ExecuteTemplate(w, "layout", "")
 }
 
-func cost(w http.ResponseWriter, r *http.Request) {
+func output(w http.ResponseWriter, r *http.Request) {
 	company := r.FormValue("company")
+	contractDuration := r.FormValue("contractDuration")
+	distCode := r.FormValue("distCode")
 	usageVT := convStrFloat(r.FormValue("usageVT"))
 	priceVT := convStrFloat(r.FormValue("priceVT"))
 	calVT := usageVT * priceVT
@@ -58,20 +62,34 @@ func cost(w http.ResponseWriter, r *http.Request) {
 	calTotalMonth := calTotal / 12
 	valTotalMonth := fmt.Sprintf("%.2f", calTotalMonth)
 
-	t, _ := template.ParseFiles("templates/layout.html", "templates/content_output.html")
+	t, _ := template.ParseFiles("./web/templates/layout.html", "./web/templates/content_output.html")
 	//data1 := []string{valVT, valNT, costMonthly, aPoze, bPoze}
-	result := Result{Company: company, UsageVT: usageVT, UsageNT: usageNT, MainBreaker: mainBreaker, Phases: phases, CostVT: valVT, CostNT: valNT, CostMonth: valMonthly, Poze: valPoze, Total: valTotal, TotalMonth: valTotalMonth}
+	result := Result{
+		Company:          company,
+		ContractDuration: contractDuration,
+		DistCode:         distCode,
+		UsageVT:          usageVT,
+		UsageNT:          usageNT,
+		MainBreaker:      mainBreaker,
+		Phases:           phases,
+		CostVT:           valVT,
+		CostNT:           valNT,
+		CostMonth:        valMonthly,
+		Poze:             valPoze,
+		Total:            valTotal,
+		TotalMonth:       valTotalMonth,
+	}
 
 	t.ExecuteTemplate(w, "layout", result)
 }
 
 func main() {
 	mux := http.NewServeMux()
-	fs := http.FileServer(http.Dir("static"))
+	fs := http.FileServer(http.Dir("./web/static"))
 	mux.Handle("/static/", http.StripPrefix("/static/", fs))
 	//mux.ServeFiles("/static/*filepath", http.Dir("static"))
 	mux.HandleFunc("/input", input)
-	mux.HandleFunc("/cost", cost)
+	mux.HandleFunc("/output", output)
 
 	server := http.Server{
 		Addr:    "127.0.0.1:8080",
